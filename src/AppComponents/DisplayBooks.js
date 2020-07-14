@@ -5,10 +5,12 @@ import BookList from "./BookList";
 class Display extends Component {
   render() {
     const books = this.props.bookList;
+    console.log(books);
     return (
       <ol className="books-grid">
-        {books.length === 0 && <p>Nothing to Display</p>}
-        {books && books.map((book) => <BookList key={book.id} book={book} />)}
+        {books.map((book) => (
+          <BookList key={book.id} book={book} />
+        ))}
       </ol>
     );
   }

@@ -5,7 +5,6 @@ import DisplayBooks from "./DisplayBooks";
 
 class SearchComponent extends Component {
   state = {
-    searchElement: "",
     queryList: [],
   };
 
@@ -15,6 +14,10 @@ class SearchComponent extends Component {
       BooksAPI.search(book_query).then((res) => {
         if (res) {
           this.updateQueryList(Array.from(res));
+          // console.log(res);
+          BooksAPI.getAll().then((res) => {
+            console.log(res);
+          });
         }
       });
     } else {
