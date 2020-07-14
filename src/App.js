@@ -18,6 +18,19 @@ class BooksApp extends React.Component {
     });
   }
 
+  updateShelf = (bookID, shelfName) => {
+    console.log(`Updating shelf ${bookID} ${shelfName}`);
+    BooksAPI.update(bookID, shelfName).then((result) => {
+      console.log(result);
+      BooksAPI.getAll().then((res) => {
+        this.setState({
+          books: res,
+        });
+        console.log(this.state);
+      });
+    });
+  };
+
   render() {
     const shelves = ["currentlyReading", "wantToRead", "read"];
     const books = Array.from(this.state.books);
@@ -46,9 +59,10 @@ class BooksApp extends React.Component {
                           </h2>
                           {/* {console.log()} */}
                           <BookShelf
-                            books={books.filter(
+                            bookList={books.filter(
                               (book) => book.shelf === status
                             )}
+                            updateShelf={this.updateShelf}
                           />
                         </div>
                       );

@@ -9,7 +9,6 @@ export const fetchBooks = async (bookIDs) => {
       BooksAPI.get(cur.id).then((res) => {
         if (res) {
           fetchedBooks = [...fetchedBooks, res];
-          // console.log(res);
         }
       });
     } catch (err) {

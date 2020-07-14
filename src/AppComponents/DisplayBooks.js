@@ -4,12 +4,11 @@ import BookList from "./BookList";
 
 class Display extends Component {
   render() {
-    const books = this.props.bookList;
-    console.log(books);
+    const { bookList, updateShelf } = this.props;
     return (
       <ol className="books-grid">
-        {books.map((book) => (
-          <BookList key={book.id} book={book} />
+        {bookList.map((book) => (
+          <BookList key={book.id} book={book} updateShelf={updateShelf} />
         ))}
       </ol>
     );

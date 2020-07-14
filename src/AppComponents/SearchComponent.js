@@ -10,32 +10,39 @@ class SearchComponent extends Component {
 
   searchBook = (e) => {
     const book_query = e.target.value;
-    if (book_query.length > 0) {
-      BooksAPI.search(book_query).then((res) => {
-        if (res) {
-          this.updateQueryList(Array.from(res));
-          // console.log(res);
-          BooksAPI.getAll().then((res) => {
-            console.log(res);
-          });
-        }
-      });
-    } else {
-      this.setState({
-        queryList: [],
-      });
+    try {
+      if (book_query.length > 0) {
+        BooksAPI.search(book_query).then((res) => {
+          if (res) {
+            this.updateQueryList(Array.from(res));
+          }
+        });
+      } else {
+        this.setState({
+          queryList: [],
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
   updateQueryList = (list) => {
-    // console.log("updating Query list");
-    this.setState((state, props) => ({
-      queryList: list,
-    }));
-    // console.log(this.state.queryList);
+    try {
+      this.setState({
+        queryList: list,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  updateShelf = (book, shelf_name) => {
+    BooksAPI.update(book, shelf_name).then((res) => console.log(res));
   };
 
   render() {
+    const searchResults = Array.from(this.state.queryList);
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -43,14 +50,6 @@ class SearchComponent extends Component {
             Close
           </Link>
           <div className="search-books-input-wrapper">
-            {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
             <input
               type="text"
               onChange={(e) => {
@@ -62,7 +61,14 @@ class SearchComponent extends Component {
         </div>
         <div className="search-books-results">
           {/* Display the results of the search here */}
-          <DisplayBooks bookList={this.state.queryList} />
+          {searchResults.length === 0 ? (
+            <p>No results to Display</p>
+          ) : (
+            <DisplayBooks
+              bookList={this.state.queryList}
+              updateShelf={this.updateShelf}
+            />
+          )}
         </div>
       </div>
     );
