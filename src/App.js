@@ -1,11 +1,9 @@
 import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
-import ReadNow from "./AppComponents/ReadNow";
-import ReadNext from "./AppComponents/ReadNext";
-import ReadComplete from "./AppComponents/ReadComplete";
 import Search from "./AppComponents/SearchComponent";
 import { Link, Route } from "react-router-dom";
+import BookShelf from "./AppComponents/BookShelf";
 
 class BooksApp extends React.Component {
   state = {
@@ -21,6 +19,8 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    const shelves = ["currentlyReading", "wantToRead", "read"];
+    const books = Array.from(this.state.books);
     return (
       <div className="app">
         <Route
@@ -34,16 +34,26 @@ class BooksApp extends React.Component {
               <div className="list-books-content">
                 <div>
                   <div className="bookshelf">
-                    <h2 className="bookshelf-title">Currently Reading</h2>
-                    <ReadNow books={this.state.books} />
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Want to Read</h2>
-                    <ReadNext books={this.state.books} />
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Read</h2>
-                    <ReadComplete books={this.state.books} />
+                    {shelves.map((status) => {
+                      return (
+                        <div key={status}>
+                          <h2 className="bookshelf-title">
+                            {status === "currentlyReading"
+                              ? "Currently Reading"
+                              : status === "wantToRead"
+                              ? "Want to Read"
+                              : "Read"}
+                          </h2>
+                          {/* {console.log()} */}
+                          <BookShelf
+                            books={books.filter(
+                              (book) => book.shelf === status
+                            )}
+                          />
+                        </div>
+                      );
+                    })}
+                    ;
                   </div>
                 </div>
               </div>

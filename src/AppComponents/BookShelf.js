@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import DisplayBooks from "./DisplayBooks";
-// import { fetchBooks } from "../Models/ApiHandler";
 
-class ReadNow extends Component {
+class BookShelf extends Component {
   state = {
     books: [],
   };
@@ -13,8 +12,9 @@ class ReadNow extends Component {
   };
 
   render() {
-    const { books } = this.props;
-    const bookArr = this.filterBooks(books);
+    const bookArr = this.props.books;
+    console.log(bookArr);
+    // const bookArr = this.filterBooks(books);
     return (
       <div className="bookshelf-books">
         {bookArr.length !== 0 ? (
@@ -28,4 +28,4 @@ class ReadNow extends Component {
   }
 }
 
-export default ReadNow;
+export default BookShelf;
