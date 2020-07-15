@@ -18,15 +18,12 @@ class BooksApp extends React.Component {
     });
   }
 
-  updateShelf = (bookID, shelfName) => {
-    console.log(`Updating shelf ${bookID} ${shelfName}`);
-    BooksAPI.update(bookID, shelfName).then((result) => {
-      console.log(result);
+  updateShelf = (book, shelfName) => {
+    BooksAPI.update(book, shelfName).then((result) => {
       BooksAPI.getAll().then((res) => {
         this.setState({
           books: res,
         });
-        console.log(this.state);
       });
     });
   };
@@ -80,7 +77,13 @@ class BooksApp extends React.Component {
             </div>
           )}
         />
-        <Route exact path="/search" component={Search} />
+        <Route
+          exact
+          path="/search"
+          render={() => (
+            <Search update={this.updateShelf} bookList={this.state.books} />
+          )}
+        />
       </div>
     );
   }
