@@ -5,6 +5,7 @@ import DisplayBooks from "./DisplayBooks";
 
 class SearchComponent extends Component {
   state = {
+    availableBooks: this.props.bookList,
     queryList: [],
   };
 
@@ -37,12 +38,9 @@ class SearchComponent extends Component {
     }
   };
 
-  updateShelf = (book, shelf_name) => {
-    BooksAPI.update(book, shelf_name).then((res) => console.log(res));
-  };
-
   render() {
     const searchResults = Array.from(this.state.queryList);
+    const updateShelf = this.props.update;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -66,7 +64,8 @@ class SearchComponent extends Component {
           ) : (
             <DisplayBooks
               bookList={this.state.queryList}
-              updateShelf={this.updateShelf}
+              updateShelf={updateShelf}
+              availableBooks={this.state.availableBooks}
             />
           )}
         </div>
